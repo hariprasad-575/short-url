@@ -2,7 +2,7 @@ const express=require('express')
 const {mongoDbConnector}=require("./connection")
 const path=require('path')
 const cookiePareser=require('cookie-parser')
-
+const  cors =require("cors")
 const url=require('./models/url')
 
 //Route variables
@@ -12,16 +12,20 @@ const userRoute=require("./routes/user")
 const { restrictTologged, checkAUth } = require('./middlewares/auth')
 
 const app=express()
-const port=8000
+const port=process.env.PORT || 8000
 
 
 //middlewares
+app.use(cors({
+    origin:process.env.CORS_ORIGIN,
+    credentials:true
+}))
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 app.use(cookiePareser())
 
 //connection
-mongoDbConnector("mongodb://127.0.0.1:27017/shortURL").then(() => {
+mongoDbConnector(process.env.MONGO_URI).then(() => {
     console.log("MONGODB CONNECTED");
 });
 
@@ -45,5 +49,5 @@ app.use('/',checkAUth,staticrouter);
 app.use('/user',userRoute);
 
 app.listen(port,()=>{
-    console.log(`Server started at http://localhost:${port}`)
+    console.log(`Server started at http://localhost:${ port}`)
 })
