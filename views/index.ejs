@@ -96,10 +96,8 @@
 <body>
     <h1>URL SHORTNER</h1>
     <% if (locals.id) { %>
-
-        <p>Here is the short url http://localhost/url/<%= id %>
-        </p>
-        <% } %>
+        <p>The given website is redirected to https://short-url-1-o99h.onrender.com/url/<%= id %></p>
+    <% } %>
             <div>
                 <form method="post" action="/url/">
                     <label for="">Enter Orginal URL</label>
